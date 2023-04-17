@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit{
   //Arguments inside constructor works as a member variables 
   constructor(
     private router : Router,
-    private hardcodedAuthenticationService : HardcodedAuthenticationService
+    public hardcodedAuthenticationService : HardcodedAuthenticationService
   ){}
 
   ngOnInit(): void {
