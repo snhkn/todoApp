@@ -27,6 +27,10 @@ export class ListTodosComponent implements OnInit {
   ){}
 
   ngOnInit(): void {
+   this.refreshTodos();
+  }
+
+  refreshTodos(){
     this.todoService.retrieveAllTodos('defaultuser').subscribe(
       response => {
         console.log(response);
@@ -41,6 +45,7 @@ export class ListTodosComponent implements OnInit {
       response => {
           console.log(response);
           this.message = `Delete of Todo ${id} Successful!`;
+          this.refreshTodos();
       }
     )
   }
