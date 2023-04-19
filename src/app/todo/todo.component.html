@@ -12,5 +12,5 @@
         <input type="date" [ngModel]="todo.targetDate | date:'yyyy-MM-dd'" (ngModelChange)="todo.targetDate = $event" class="form-control" name="targetDate" required="required">
     </fieldset>
 
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success" (click)="saveTodo()">Save</button>
 </div>
