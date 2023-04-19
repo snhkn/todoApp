@@ -30,13 +30,23 @@ export class TodoComponent implements OnInit {
   }
 
   saveTodo():void{
-  
+    
+    if(this.id === 0){
+      //Create todo
+      this.todoService.createTodo('defaultuser', this.todo).subscribe(
+        response => {
+          console.log(response)
+          this.router.navigate(['todos'])
+        }
+      )
+    }else{
       this.todoService.updateTodo('defaultuser', this.id, this.todo).subscribe(
         response => {
           console.log(response)
           this.router.navigate(['todos'])
         }
       )
+    }
   }
 
 }
