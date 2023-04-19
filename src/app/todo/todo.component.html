@@ -2,11 +2,11 @@
 
 
 <div class="container">
-    <form (ngSubmit)="saveTodo()">
+    <form (ngSubmit)="!todoForm.invalid && saveTodo()" #todoForm="ngForm">
         <fieldset class="form-group">
             <label>Description</label>
             <input type="text" [(ngModel)]="todo.description" class="form-control" name="description"
-                required="required">
+                required="required" minlength="5">
         </fieldset>
 
         <fieldset class="form-group">
