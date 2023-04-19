@@ -22,13 +22,15 @@ export class TodoComponent implements OnInit {
   ngOnInit(): void {
     this.id  = this.route.snapshot.params['id'];
     this.todo = new Todo(this.id, '', false, new Date());
-    this.todoService.retrieveTodo('defaultuser', this.id).subscribe(
-      response => this.todo = response
-    );
+    if (this.id != -1) {
+      this.todoService.retrieveTodo('defaultuser', this.id).subscribe(
+        response => this.todo = response
+      );
+    }
   }
 
   saveTodo():void{
- 
+  
       this.todoService.updateTodo('defaultuser', this.id, this.todo).subscribe(
         response => {
           console.log(response)
