@@ -10,8 +10,9 @@ import { BasicAuthenticationService } from '../service/basic-authentication.serv
 })
 export class LoginComponent implements OnInit{
 
-  username = 'defaultuser'
+  // username = 'defaultuser'
   password = ''
+  username! : any;
   errorMessage = 'invalid Credentials'
   invalidLogin = false
 
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit{
   ){}
 
   ngOnInit(): void {
-    
+   this.username =  this.basicAuthenticationService.getAuthenticatedUser();
   }
 
   handleLogin() {
