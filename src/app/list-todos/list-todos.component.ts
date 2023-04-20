@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoDataService } from '../service/data/todo-data.service';
 import { Router } from '@angular/router';
+import { BasicAuthenticationService } from '../service/basic-authentication.service';
 
-export class Todo{
+export class Todo {
 
   constructor(
-    public id : number,
-    public description : string,
-    public done : boolean,
-    public targetDate : Date
-  ){}
+    public id: number,
+    public description: string,
+    public done: boolean,
+    public targetDate: Date
+  ) { }
 
 }
 
@@ -19,21 +20,23 @@ export class Todo{
   styleUrls: ['./list-todos.component.css']
 })
 export class ListTodosComponent implements OnInit {
- 
+
   todos: Todo[] = [];
-  message : string = '';
-  
+  message: string = '';
+  username!: any;
+
   constructor(
-    private todoService : TodoDataService, 
-    private router : Router
-  ){}
+    private todoService: TodoDataService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
-   this.refreshTodos();
+    this.username = sessionStorage.getItem('authenticatedUser');
+    this.refreshTodos();
   }
 
-  refreshTodos(){
-    this.todoService.retrieveAllTodos('defaultuser').subscribe(
+  refreshTodos() {
+    this.todoService.retrieveAllTodos(this.username).subscribe(
       response => {
         console.log(response);
         this.todos = response;
@@ -41,23 +44,23 @@ export class ListTodosComponent implements OnInit {
     );
   }
 
-  deleteTodo(id: number):void{
+  deleteTodo(id: number): void {
     console.log(`Delete todo id:${id}`);
-    this.todoService.deleteTodo('defaultuser', id).subscribe(
+    this.todoService.deleteTodo(this.username, id).subscribe(
       response => {
-          console.log(response);
-          this.message = `Delete of Todo ${id} Successful!`;
-          this.refreshTodos();
+        console.log(response);
+        this.message = `Delete of Todo ${id} Successful!`;
+        this.refreshTodos();
       }
     )
   }
 
-  updateTodo(id: number): void{
+  updateTodo(id: number): void {
     console.log(`Update todo id:${id}`);
     this.router.navigate(['todos', id])
   }
 
-  addTodo(): void{
+  addTodo(): void {
     this.router.navigate(['todos', -1])
   }
 }
