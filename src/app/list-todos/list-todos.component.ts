@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoDataService } from '../service/data/todo-data.service';
 import { Router } from '@angular/router';
+import { AUTHENTICATED_USER } from '../service/basic-authentication.service';
 
 export class Todo {
 
@@ -30,7 +31,7 @@ export class ListTodosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.username = sessionStorage.getItem('authenticatedUser');
+    this.username = sessionStorage.getItem(AUTHENTICATED_USER);
     this.refreshTodos();
   }
 
