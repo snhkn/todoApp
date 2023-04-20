@@ -20,8 +20,9 @@ export class BasicAuthenticationService {
       {headers : header}).pipe(
         map(
           data => {
+            //Set authenticated user and toke in session storage
             sessionStorage.setItem('authenticatedUser',username);
-            //sessionStorage.setItem('token',basicAuthHeaderString);
+            sessionStorage.setItem('token',basicAuthHeaderString);
             return data;
           }
         )
@@ -29,14 +30,17 @@ export class BasicAuthenticationService {
     //console.log("Execute Basic Authentication Bean Service");
   }
 
+  //Get authenticated user from session storage
   getAuthenticatedUser(){
    return sessionStorage.getItem('authenticatedUser')
   }
 
+  //Get authenticated token from session storage
   getAuthenticatedToken() : any {
     if(this.getAuthenticatedUser())
       return sessionStorage.getItem('token')
   }
+
 
   isUserLoggedIn(){
     let user = sessionStorage.getItem('authenticatedUser')
