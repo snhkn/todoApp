@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HardcodedAuthenticationService } from '../service/hardcoded-authentication.service';
+import { BasicAuthenticationService } from '../service/basic-authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit{
   //Arguments inside constructor works as a member variables 
   constructor(
     private router : Router,
-    public hardcodedAuthenticationService : HardcodedAuthenticationService
+    public hardcodedAuthenticationService : HardcodedAuthenticationService, 
+    private basicAuthenticationService : BasicAuthenticationService
   ){}
 
   ngOnInit(): void {
@@ -35,6 +37,26 @@ export class LoginComponent implements OnInit{
     }else{
       this.invalidLogin = true
     }
+  }
+
+  handleBasicAuthLogin(){
+
+    this.basicAuthenticationService.executeAuthenticationService(this.username, this.password)
+      .subscribe({
+
+        next : data => {
+          console.log(data);
+           //redirect to welcome page
+          this.router.navigate(['welcome', this.username]);
+          this.invalidLogin = false;
+        },
+        error : error => {
+          console.log(error);
+          this.invalidLogin = true;
+        }
+       });
+     
+  
   }
 
 }
