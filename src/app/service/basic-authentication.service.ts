@@ -34,6 +34,24 @@ export class BasicAuthenticationService {
     //console.log("Execute Basic Authentication Bean Service");
   }
 
+  executeJWTAuthenticationService(username:string, password : string){
+   
+    return this.http.post<any>(`${API_URL}/authenticate`, {
+      username,
+      password
+    }).pipe(
+        map(
+          data => {
+            //Set authenticated user and toke in session storage
+            sessionStorage.setItem(AUTHENTICATED_USER,username);
+            sessionStorage.setItem(TOKEN,`Bearer ${data.token}`);
+            return data;
+          }
+        )
+      );
+    //console.log("Execute Basic Authentication Bean Service");
+  }
+
   //Get authenticated user from session storage
   getAuthenticatedUser(){
    return sessionStorage.getItem(AUTHENTICATED_USER)
