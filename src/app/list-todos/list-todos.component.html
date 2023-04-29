@@ -9,21 +9,40 @@
             <tr>
                 <th>Description</th>
                 <th>Target Date</th>
+                <th>O</th>
+                <th>Stopwatch</th>
+                <th>Time</th>
                 <th>Update</th>
                 <th>Delete</th>
             </tr>
         </thead>
         <tbody>
+
             <!--for(Todo todo : todos)-->
             <tr *ngFor="let todo of todos">
                 <td [ngClass]="{'completed': todo.done}">{{todo.description}}</td>
                 <td>{{todo.targetDate | date | uppercase}} </td>
+                <td>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="{{todo.id}}"
+                            [value]="todo" [(ngModel)]="selectedTodo">
+                    </div>
+                </td>
+                <td>
+                    <button *ngIf="selectedTodo && selectedTodo.id === todo.id" class="btn btn-danger"
+                        (click)="toggleButton(todo)">
+                        {{ isStarted ? 'Stop' : 'Start' }}
+                    </button>
+                </td>
+                <td *ngIf="selectedTodo && selectedTodo.id === todo.id">{{ formatTime(timeElapsed)}}</td>
+                <td *ngIf="!(selectedTodo && selectedTodo.id === todo.id)">0h 0m 0s</td>
                 <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button></td>
                 <td><button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td>
             </tr>
+
         </tbody>
     </table>
     <div class="row">
-        <td><button (click) = "addTodo()" class="btn btn-success">Add</button></td>
+        <td><button (click)="addTodo()" class="btn btn-success">Add</button></td>
     </div>
 </div>
