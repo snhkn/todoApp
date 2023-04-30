@@ -29,13 +29,13 @@
                     </div>
                 </td>
                 <td>
-                    <button *ngIf="selectedTodo && selectedTodo.id === todo.id" class="btn btn-danger"
+                    <button *ngIf="selectedTodo && selectedTodo.id === todo.id" [ngClass]="{'btn-success': !isStarted, 'btn-danger': isStarted}"
                         (click)="toggleButton(todo)">
                         {{ isStarted ? 'Stop' : 'Start' }}
                     </button>
                 </td>
                 <td>{{ formatTime(elapsedTime[todo.id]) }}</td>
-                <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button></td>
+                <td><button (click)="updateTodo(todo.id)" class="btn btn-primary">Update</button></td>
                 <td><button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td>
             </tr>
 
