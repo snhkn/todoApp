@@ -26,9 +26,9 @@ export class ListTodosComponent implements OnInit {
   username: any;
   selectedTodo!: Todo;
   isStarted: boolean = false;
-  startTime!: Date;
+  startTime: Date | null = null; // initialize to null
   interval: any;
-  timeElapsed: number = 0;
+  elapsedTime: { [id: number]: number } = {}; // elapsed time for each todo
 
   constructor(
     private todoService: TodoDataService,
@@ -45,6 +45,10 @@ export class ListTodosComponent implements OnInit {
       response => {
         console.log(response);
         this.todos = response;
+        this.todos.forEach((todo) => {
+          // initialize elapsed time for each todo to 0
+          this.elapsedTime[todo.id] = 0;
+        });
       }
     );
   }
@@ -70,20 +74,32 @@ export class ListTodosComponent implements OnInit {
   }
   
   toggleButton(todo: Todo) {
- 
     if (this.isStarted) {
       // stop the timer
       clearInterval(this.interval);
       this.isStarted = false;
+      if (this.startTime !== null) {
+        // update elapsed time
+        const id = this.selectedTodo?.id;
+        if (id !== undefined) {
+          const elapsed = this.elapsedTime[id] || 0;
+          this.elapsedTime[id] = elapsed + new Date().getTime() - this.startTime.getTime();
+        }
+        this.startTime = null;
+      }
     } else {
       // start the timer
       this.isStarted = true;
       this.selectedTodo = todo;
       this.startTime = new Date();
+      var startTime = this.startTime.getTime();
       this.interval = setInterval(() => {
-        this.timeElapsed = new Date().getTime() - this.startTime.getTime();
+        const id = this.selectedTodo?.id;
+        if (id !== undefined) {
+          const elapsed = this.elapsedTime[id] || 0;
+          this.elapsedTime[id] = elapsed + new Date().getTime() - startTime;
+        }
       }, 1000);
-      console.log(this.timeElapsed);
     }
   }
 

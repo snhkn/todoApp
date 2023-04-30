@@ -34,8 +34,7 @@
                         {{ isStarted ? 'Stop' : 'Start' }}
                     </button>
                 </td>
-                <td *ngIf="selectedTodo && selectedTodo.id === todo.id">{{ formatTime(timeElapsed)}}</td>
-                <td *ngIf="!(selectedTodo && selectedTodo.id === todo.id)">0h 0m 0s</td>
+                <td>{{ formatTime(elapsedTime[todo.id]) }}</td>
                 <td><button (click)="updateTodo(todo.id)" class="btn btn-success">Update</button></td>
                 <td><button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td>
             </tr>
