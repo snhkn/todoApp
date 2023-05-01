@@ -9,7 +9,8 @@ export class Todo {
     public id: number,
     public description: string,
     public done: boolean,
-    public targetDate: Date
+    public targetDate: Date, 
+    public elapsedTime : number
   ) { }
 
 }
@@ -45,9 +46,9 @@ export class ListTodosComponent implements OnInit {
       response => {
         console.log(response);
         this.todos = response;
-        this.todos.forEach((todo) => {
-          // initialize elapsed time for each todo to 0
-          this.elapsedTime[todo.id] = 0;
+        response.forEach((todo) => {
+          // initialize elapsed time for each todo
+          this.elapsedTime[todo.id] = todo.elapsedTime || 0;
         });
       }
     );
@@ -66,7 +67,7 @@ export class ListTodosComponent implements OnInit {
 
   updateTodo(id: number): void {
     console.log(`Update todo id:${id}`);
-    this.router.navigate(['todos', id])
+    this.router.navigate(['todos', id], { queryParams: { elapsedTime: this.elapsedTime[id] } })
   }
 
   addTodo(): void {
