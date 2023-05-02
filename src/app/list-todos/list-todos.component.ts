@@ -75,9 +75,12 @@ export class ListTodosComponent implements OnInit {
   }
   
   toggleButton(todo: Todo) {
+    // clear the interval and set it to null
+    clearInterval(this.interval);
+    this.interval = null;
+  
     if (this.isStarted) {
       // stop the timer
-      clearInterval(this.interval);
       this.isStarted = false;
       if (this.startTime !== null) {
         // update elapsed time
@@ -105,10 +108,10 @@ export class ListTodosComponent implements OnInit {
   }
 
   formatTime(ms: number): string {
-    const seconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
+    const seconds = Math.floor((ms / 1000) % 60);
+    const minutes = Math.floor((ms / (1000 * 60)) % 60);
+    const hours = Math.floor(ms / (1000 * 60 * 60));
   
-    return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
+    return `${hours}h ${minutes}m ${seconds}s`;
   }
 }
