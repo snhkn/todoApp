@@ -114,4 +114,11 @@ export class ListTodosComponent implements OnInit {
   
     return `${hours}h ${minutes}m ${seconds}s`;
   }
+
+  resetButton(todo: Todo){
+    const id = todo.id;
+    this.elapsedTime[id] = 0;
+    this.isStarted = false;
+    this.startTime = null;
+  }
 }

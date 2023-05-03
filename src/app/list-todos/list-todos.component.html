@@ -11,6 +11,7 @@
                 <th>Target Date</th>
                 <th>O</th>
                 <th>Stopwatch</th>
+                <th>Reset</th>
                 <th>Time</th>
                 <th>Update</th>
                 <th>Delete</th>
@@ -29,11 +30,14 @@
                     </div>
                 </td>
                 <td>
-                    <button *ngIf="selectedTodo && selectedTodo.id === todo.id" [ngClass]="{'btn-success': !isStarted, 'btn-danger': isStarted}"
-                        (click)="toggleButton(todo)">
+                    <button *ngIf="selectedTodo && selectedTodo.id === todo.id"
+                        [ngClass]="{'btn-success': !isStarted, 'btn-danger': isStarted}" (click)="toggleButton(todo)">
                         {{ isStarted ? 'Stop' : 'Start' }}
                     </button>
                 </td>
+                <td>  <button type="button" class="btn btn-danger btn-sm" *ngIf="selectedTodo && selectedTodo.id === todo.id && !isStarted"
+                    (click)="resetButton(todo)">Reset
+                </button></td>
                 <td>{{ formatTime(elapsedTime[todo.id]) }}</td>
                 <td><button (click)="updateTodo(todo.id)" class="btn btn-primary">Update</button></td>
                 <td><button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td>
