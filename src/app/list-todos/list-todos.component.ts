@@ -121,4 +121,8 @@ export class ListTodosComponent implements OnInit {
     this.isStarted = false;
     this.startTime = null;
   }
+
+  saveTodoTimeLog(id: number):void{
+    this.router.navigate(['timelogs', id])
+  }
 }

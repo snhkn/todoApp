@@ -32,4 +32,8 @@ export class TodoDataService {
     return this.http.post(`${JPA_API_URL}/users/${username}/todos`, todo)
   }
 
+  updateTodoTimeLog(username: string, id: number, todo:Todo){
+    return this.http.put(`${JPA_API_URL}/users/${username}/timelogs/${id}`, todo)
+  }
+
 }

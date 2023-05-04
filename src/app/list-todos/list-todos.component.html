@@ -9,10 +9,11 @@
             <tr>
                 <th>Description</th>
                 <th>Target Date</th>
-                <th>O</th>
-                <th>Stopwatch</th>
+                <th></th>
+                <th>Start/Stop</th>
                 <th>Reset</th>
-                <th>Time</th>
+                <th>Stopwatch</th>
+                <th>Save</th>
                 <th>Update</th>
                 <th>Delete</th>
             </tr>
@@ -39,6 +40,7 @@
                     (click)="resetButton(todo)">Reset
                 </button></td>
                 <td>{{ formatTime(elapsedTime[todo.id]) }}</td>
+                <td><button (click)="saveTodoTimeLog(todo.id)" class="btn btn-sm">Save</button></td>
                 <td><button (click)="updateTodo(todo.id)" class="btn btn-primary">Update</button></td>
                 <td><button (click)="deleteTodo(todo.id)" class="btn btn-warning">Delete</button></td>
             </tr>
