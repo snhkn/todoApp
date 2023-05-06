@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_URL, JPA_API_URL } from 'src/app/app.constants';
 import { Todo } from 'src/app/list-todos/list-todos.component';
+import { TimeLogger } from 'src/app/time-logger/time-logger.component';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +33,8 @@ export class TodoDataService {
     return this.http.post(`${JPA_API_URL}/users/${username}/todos`, todo)
   }
 
-  updateTodoTimeLog(username: string, id: number, todo:Todo){
-    return this.http.put(`${JPA_API_URL}/users/${username}/timelogs/${id}`, todo)
+  updateTodoTimeLog(username: string, loggerId: number, todoId: number, timeLogger: TimeLogger){
+    return this.http.put(`${JPA_API_URL}/users/${username}/timelogs/${todoId}/${loggerId}`, timeLogger)
   }
 
 }

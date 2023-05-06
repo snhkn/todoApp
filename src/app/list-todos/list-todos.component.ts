@@ -9,8 +9,8 @@ export class Todo {
     public id: number,
     public description: string,
     public done: boolean,
-    public targetDate: Date, 
-    public elapsedTime : number
+    public targetDate: Date,
+    public elapsedTime: number
   ) { }
 
 }
@@ -30,6 +30,8 @@ export class ListTodosComponent implements OnInit {
   startTime: Date | null = null; // initialize to null
   interval: any;
   elapsedTime: { [id: number]: number } = {}; // elapsed time for each todo
+  firstStartflag: boolean = false;
+  firstStartTime!: Date;
 
   constructor(
     private todoService: TodoDataService,
@@ -73,12 +75,12 @@ export class ListTodosComponent implements OnInit {
   addTodo(): void {
     this.router.navigate(['todos', -1])
   }
-  
+
   toggleButton(todo: Todo) {
     // clear the interval and set it to null
     clearInterval(this.interval);
     this.interval = null;
-  
+
     if (this.isStarted) {
       // stop the timer
       this.isStarted = false;
@@ -96,6 +98,10 @@ export class ListTodosComponent implements OnInit {
       this.isStarted = true;
       this.selectedTodo = todo;
       this.startTime = new Date();
+      if (!this.firstStartflag) {
+        this.firstStartTime = this.startTime;
+        this.firstStartflag = true;
+      }
       var startTime = this.startTime.getTime();
       this.interval = setInterval(() => {
         const id = this.selectedTodo?.id;
@@ -111,18 +117,33 @@ export class ListTodosComponent implements OnInit {
     const seconds = Math.floor((ms / 1000) % 60);
     const minutes = Math.floor((ms / (1000 * 60)) % 60);
     const hours = Math.floor(ms / (1000 * 60 * 60));
-  
+
     return `${hours}h ${minutes}m ${seconds}s`;
   }
 
-  resetButton(todo: Todo){
+  resetButton(todo: Todo) {
     const id = todo.id;
     this.elapsedTime[id] = 0;
     this.isStarted = false;
     this.startTime = null;
+    this.firstStartflag = false;
   }
 
-  saveTodoTimeLog(id: number):void{
-    this.router.navigate(['timelogs', id])
+  saveTodoTimeLog(id: number): void {
+    const formattedElapsedTime = this.formatTime(this.elapsedTime[id]) || 0;
+    const formattedStartTime = this.formatFullTime(this.firstStartTime);
+    this.router.navigate(['timelogs', id], { queryParams: { formattedStartTime, formattedElapsedTime } })
+  }
+
+  formatFullTime(time: Date) {
+    const year = time.getFullYear();
+    const month = time.getMonth();
+    const day = time.getDay();
+    const hour = time.getHours();
+    const minutes = time.getMinutes();
+    const seconds = time.getSeconds();
+
+    return `${year}-${month}-${day}, ${hour}:${minutes}:${seconds} `;
+
   }
 }
